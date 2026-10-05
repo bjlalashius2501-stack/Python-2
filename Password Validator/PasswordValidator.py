@@ -215,7 +215,7 @@ def check_character_repeats(sParamPasswordBL):
 
 
 def main():
-	bIsNotValid = True	# Only used to exit the password loop (technically, a break works >> easier to understand)
+	bIsNotValidBL = True	# Only used to exit the password loop (technically, a break works >> easier to understand)
 
 
 	###### GET USER'S FULL NAME & CHECK IT IS A VALID FIRST + LAST NAME ######
@@ -226,7 +226,7 @@ def main():
 		##	GOTTA HAVE A VALID NAME!
 
 	###### GET AND VERIFY USER PASSWORD ######
-	while bIsNotValid:
+	while bIsNotValidBL:
 		sPasswordBL = input("Enter new password >> ")
 
 		######	Get User Initials	######
@@ -257,7 +257,7 @@ def main():
 		# assuming that ALL the 3 above checks are true:
 		# set the isNotValid boolean to False (meaning the password IS valid) and exit the loop
 		# ** the built-in 'all' method checks if booleans in a list passed to it are all True **
-		bIsNotValid = False if all([bPassedSpecialBL, bPassedLettersBL, bPassedRepeatsBL]) else True
+		bIsNotValidBL = False if all([bPassedSpecialBL, bPassedLettersBL, bPassedRepeatsBL]) else True
 
 	# notify user the password is valid and okay to use!
 	else: print("PASSWORD IS VALID AND OK TO USE!")
