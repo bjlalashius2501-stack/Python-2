@@ -4,7 +4,8 @@
 	Code Rewritten Count: 3
 	Code Submitted: 10-##-2026
 	Assignment: Password Validator
-
+	Github: https://github.com/bjlalashius2501-stack/Python-2/tree/main/Password%20Validator
+	
 	NOTE: All comments with a ! or * in it were made with the VScode Better Comments Extension in mind
 
 	Reflection:
