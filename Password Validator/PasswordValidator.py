@@ -2,10 +2,10 @@
 	Name: Brandon Lalashius
 	Code Started: 09-25-2026
 	Code Rewritten Count: 3
-	Code Submitted: 10-##-2026
+	Code Submitted: 10-09-2026
 	Assignment: Password Validator
 	Github: https://github.com/bjlalashius2501-stack/Python-2/tree/main/Password%20Validator
-	
+
 	NOTE: All comments with a ! or * in it were made with the VScode Better Comments Extension in mind
 
 	Reflection:
@@ -58,8 +58,6 @@ def validatePassword(sParamPasswordBL, sParamInitialsBL):
 	lPassCheckBL = []	# Used to verify the password doesn't start with the word PASS
 
 
-
-
 	# Check length of password (8 - 12 characters)
 	if 12 < len(sParamPasswordBL) or len(sParamPasswordBL) < 8:
 		print("Please enter a password between 8 and 12 characters!")
@@ -73,10 +71,12 @@ def validatePassword(sParamPasswordBL, sParamInitialsBL):
 		elif sChar.islower(): bIsLowerBL = True
 		elif sChar.isdigit(): bIsNumberBL = True
 		elif sChar in list("!@#$%^"): bIsSpecialBL = True
+
 		if all([bIsUpperBL, bIsLowerBL, bIsNumberBL, bIsSpecialBL]): break
 	###### ^^^ ALL IS USED TO CHECK IF A LIST OF BOOLEANS RETURN TRUE/FALSE ######
 
 	# Print the proper response if any of the above booleans are False
+
 	if not bIsUpperBL: print("Your password must have at least 1 UPPERCASE letter")
 	if not bIsLowerBL: print("Your password must have at least 1 LOWERCASE letter")
 	if not bIsNumberBL: print("Your password must have at least 1 NUMBER")
@@ -91,24 +91,29 @@ def validatePassword(sParamPasswordBL, sParamInitialsBL):
 	# Iterate through the password 4 times, checking if the first 4 letters make up the word 'PASS'
 	# The list of characters making up the password
 	# are all set to lowercase for ease of checking.
-	for iChar in range(4):
-		if lPasswordListBL[iChar] == list("pass")[iChar]: lPassCheckBL.append(iChar)
-			#* index 0 != p	*#
-			#* index 1 != a	*#
-			#* index 2 != s	*#
-			#* index 3 != s	*#
-
-	#! if lPassCheckBL == 4			<<< THATS WRONG	!#
-	#! if len(lPassCheckBL) == 4	<<< THATS RIGHT	!#
-	if len(lPassCheckBL) == 4:
-		print("Your password cannot have the word 'PASS' in it!")
-
+	if len(sParamPasswordBL) >= 4:	#! CHECK THE PASSWORD IS 4 OR MORE CHARACTERS IN LENGTH!!!!!!
+		for iChar in range(4):
+			if lPasswordListBL[iChar] == list("pass")[iChar]: lPassCheckBL.append(iChar)
+				#* index 0 != p	*#
+				#* index 1 != a	*#
+				#* index 2 != s	*#
+				#* index 3 != s	*#
+	
+		#! if lPassCheckBL == 4			<<< THATS WRONG	!#
+		#! if len(lPassCheckBL) == 4	<<< THATS RIGHT	!#
+		if len(lPassCheckBL) == 4:
+			print("Your password cannot have the word 'PASS' in it!")
+	
+			bIsValidPasswordBL = False
+			lPassCheckBL.clear()
+			# CLEAR FOR THE NEXT TEST
+	else:
 		bIsValidPasswordBL = False
-		lPassCheckBL.clear()	# CLEAR FOR THE NEXT TEST
+
 
 
 	# Check if password contains user's initials
-	if sParamInitialsBL in sParamPasswordBL:
+	if sParamInitialsBL.lower() in sParamPasswordBL.lower():	# ** Don't forget to set the initials & password to lowercase!
 		print("Your password cannot contain your initials!")
 		bIsValidPasswordBL = False
 
@@ -129,9 +134,9 @@ def validatePassword(sParamPasswordBL, sParamInitialsBL):
 	setDuplicateCharsBL = set()	# Set to identify duplicate characters
 	if len(lPasswordListBL) != len(set(lPasswordListBL)):
 		print("THESE CHARACTERS APPEAR MORE THAN ONCE:")
-		for char in lPasswordListBL:
-			if char in setSeenCharsBL: setDuplicateCharsBL.add(char)
-			else: setSeenCharsBL.add(char)
+		for sChar in lPasswordListBL:
+			if sChar in setSeenCharsBL: setDuplicateCharsBL.add(sChar)
+			else: setSeenCharsBL.add(sChar)
 
 		for dupe in list(setDuplicateCharsBL):
 			print(f"{dupe}: {lPasswordListBL.count(dupe)} Times")
