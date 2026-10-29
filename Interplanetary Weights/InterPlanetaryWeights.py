@@ -8,8 +8,8 @@ REFLECTION:
 	and more efficiently do parts of the assignment such as os.path.exists instead of the try/except
 	for checking if the .db file exists!
 
-	What I struggled with was checking whether the db file actually exists. I've ended up rewriting
-	that part countless times (at least 5+) so I clearly struggled with it.
+	What I struggled with was appending the person's weight to the history dict and then 
+	clearing the person weight dictionary before adding another persons weight again
 
 	Two things I learned were:
 		1.
@@ -35,10 +35,10 @@ dictGravityFactorsBL = {
 
 
 dbPath = 'blPlanetaryWeights.plk'
-fEarthWeightBL = 0.0
+
+
 
 def main():
-	
 	if os.path.exists(dbPath):
 		while True:
 			sShowHistory = input("Do you want to see the history? (y or n) >> ").lower()
@@ -46,7 +46,14 @@ def main():
 				try:
 					with open(dbPath, 'rb') as db: dictTempDictBL = dict(pickle.load(db))
 					for name, data in dictTempDictBL.items(): dictPlanetHistoryBL[name] = data
-					print(dictPlanetHistoryBL)
+
+
+					for name, data in dictPlanetHistoryBL.items():
+						print(f"{name}'s weight data:")
+						for planet, weight in data.items():
+							print(f"{planet} => {weight:.2f}")
+						
+						print()
 
 				except EOFError:
 					print("There is no data in the file. Continuing onwards.")
@@ -62,23 +69,37 @@ def main():
 	with open(dbPath, 'wb') as db:
 		while True:
 			while True:
-				sUniqueNameBL = input("Please enter a unique name (leave blank to exit) >> ")
-				if sUniqueNameBL in dictPlanetHistoryBL: print("That name already exists") # type: ignore
+				sUniqueNameBL = input("Please enter a unique name (leave blank to exit) >> ").lower().title()
+				if sUniqueNameBL in dictPlanetHistoryBL: print("That name already exists")
 				else: break
 
+
 			if sUniqueNameBL is None or sUniqueNameBL == "": break
-			fEarthWeightBL = float(input("Please enter a weight on Earth >> "))
+			while True:	
+				sInputWeight = input("Please enter a weight on Earth >> ")
+				try: 
+					fEarthWeightBL = float(sInputWeight)
+					break
+
+				except ValueError: print("Please input a valid number, such as 1 or 2.5")
 
 
 			for planet, weight in dictGravityFactorsBL.items():
-				fNewWeight = fEarthWeightBL * weight
-				print(f"Weight on {planet:<10}: {fNewWeight:>10.2f}")
-				dictPersonWeightsBL[planet] = fNewWeight
+				fNewWeightBL = fEarthWeightBL * weight
+
+				print(f"Weight on {planet:<10}: {fNewWeightBL:>10.2f}")
+				dictPersonWeightsBL[planet] = fNewWeightBL
 
 
 			dictPlanetHistoryBL[sUniqueNameBL] = dictPersonWeightsBL
-			
+
+
+
+
+
+		print(dictPlanetHistoryBL)
 		pickle.dump(dictPlanetHistoryBL, db)
+
 
 	print("Data written. Thank you!")
 
