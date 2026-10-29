@@ -8,7 +8,8 @@ REFLECTION:
 	and more efficiently do parts of the assignment such as os.path.exists instead of the try/except
 	for checking if the .db file exists!
 
-	What I struggled with was 
+	What I struggled with was checking whether the db file actually exists. I've ended up rewriting
+	that part countless times (at least 5+) so I clearly struggled with it.
 
 	Two things I learned were:
 		1.
@@ -17,9 +18,10 @@ REFLECTION:
 
 import pickle, os
 
+
 dictPlanetHistoryBL = {}
 dictPersonWeightsBL = {}
-dictWeightConversionsBL = {
+dictGravityFactorsBL = {
 	"MERCURY": 0.38,
 	"VENUS": 0.91,
 	"MOON": 0.165,
@@ -34,59 +36,42 @@ dictWeightConversionsBL = {
 dbPath = 'blPlanetaryWeights.db'
 fEarthWeightBL = 0.0
 
-
-
 def main():
-	#** WAS TOLD THE IF/ELSE WAS OKAY TO REPLACE THE TRY/EXCEPT
-	if os.path.exists(dbPath):
-		with open(dbPath, 'r') as db:
-			for key, value in db:
-				dictPlanetHistoryBL[key] = value
-
-
-			sAllowHistory = input("Do you want to see the history (y or n) >> ")
-			if sAllowHistory.lower() == 'y':
-				for line in dictPlanetHistoryBL:
-					print(f"=> {line}")
-
+	with open(dbPath, 'wb') as db:	#* a+ means I can read & append AND create the file if needed
+		if os.path.exists(dbPath):
 
 			while True:
+				sShowHistory = input("Do you want to see the history? (y or n) >> ").lower()
+				if sShowHistory == 'y' or sShowHistory == 'yes':
+					dictPlanetHistoryBL = dict(pickle.load(db))
+					break
+
+				elif sShowHistory == 'n' or sShowHistory == 'no': break
+				else: print("Please input y or n")
+
+
+		while True:
+			while True:
 				sUniqueNameBL = input("Please enter a unique name (leave blank to exit) >> ")
-				if sUniqueNameBL == None or sUniqueNameBL == "":
-					break
+				if sUniqueNameBL in dictPlanetHistoryBL: print("That name already exists")
+				else: break
 
-				if sUniqueNameBL in dictPlanetHistoryBL:
-					print(f"{sUniqueNameBL} already exists. Please enter another name.")
+			if sUniqueNameBL is None or sUniqueNameBL == "": break
+			fEarthWeightBL = float(input("Please enter a weight on Earth >> "))
 
-				else:
-					while True:
-						sWeightInputBL = input("Please enter a weight in lbs >> ")
-						try:
-							fEarthWeightBL = float(sWeightInputBL)
-							break
-						
-						except ValueError:
-							print("Please enter a valid weight!")
 
-					for planet, weight in dictWeightConversionsBL.items():
-						dictPersonWeightsBL[planet] = weight * fEarthWeightBL
-
-					for key, value in dictPersonWeightsBL.items():
-						print(f"PLANET: {key:<10}	|	WEIGHT: {value:<10.2f}lbs")
-					
-					break
+			for planet, weight in dictGravityFactorsBL.items():
+				fNewWeight = fEarthWeightBL * weight
+				print(f"Weight on {planet:<10}: {fNewWeight:>10.2f}")
+				dictPersonWeightsBL[planet] = fNewWeight
 
 
 
-
-	else:
-		with open(dbPath, 'w') as db:
-			pass
-
-		
+			dictPlanetHistoryBL[sUniqueNameBL] = dictPersonWeightsBL
+			dictPersonWeightsBL.clear()
 
 
-
-
-
+		pickle.dump(dictPlanetHistoryBL, db)
+			
+			
 if __name__ == '__main__': main()
