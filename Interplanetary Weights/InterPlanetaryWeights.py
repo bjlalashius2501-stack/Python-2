@@ -33,27 +33,37 @@ dictGravityFactorsBL = {
 	"PLUTO": 0.066
 }
 
-dbPath = 'blPlanetaryWeights.db'
+
+dbPath = 'blPlanetaryWeights.plk'
 fEarthWeightBL = 0.0
 
 def main():
-	with open(dbPath, 'wb') as db:	#* a+ means I can read & append AND create the file if needed
-		if os.path.exists(dbPath):
+	
+	if os.path.exists(dbPath):
+		while True:
+			sShowHistory = input("Do you want to see the history? (y or n) >> ").lower()
+			if sShowHistory == 'y' or sShowHistory == 'yes':
+				try:
+					with open(dbPath, 'rb') as db: dictTempDictBL = dict(pickle.load(db))
+					for name, data in dictTempDictBL.items(): dictPlanetHistoryBL[name] = data
+					print(dictPlanetHistoryBL)
 
-			while True:
-				sShowHistory = input("Do you want to see the history? (y or n) >> ").lower()
-				if sShowHistory == 'y' or sShowHistory == 'yes':
-					dictPlanetHistoryBL = dict(pickle.load(db))
+				except EOFError:
+					print("There is no data in the file. Continuing onwards.")
 					break
+				
+				break
 
-				elif sShowHistory == 'n' or sShowHistory == 'no': break
-				else: print("Please input y or n")
+			elif sShowHistory == 'n' or sShowHistory == 'no': break
+			else: print("Please input y or n")
 
+		
 
+	with open(dbPath, 'wb') as db:
 		while True:
 			while True:
 				sUniqueNameBL = input("Please enter a unique name (leave blank to exit) >> ")
-				if sUniqueNameBL in dictPlanetHistoryBL: print("That name already exists")
+				if sUniqueNameBL in dictPlanetHistoryBL: print("That name already exists") # type: ignore
 				else: break
 
 			if sUniqueNameBL is None or sUniqueNameBL == "": break
@@ -66,12 +76,10 @@ def main():
 				dictPersonWeightsBL[planet] = fNewWeight
 
 
-
 			dictPlanetHistoryBL[sUniqueNameBL] = dictPersonWeightsBL
-			dictPersonWeightsBL.clear()
-
-
+			
 		pickle.dump(dictPlanetHistoryBL, db)
-			
-			
+
+	print("Data written. Thank you!")
+
 if __name__ == '__main__': main()
