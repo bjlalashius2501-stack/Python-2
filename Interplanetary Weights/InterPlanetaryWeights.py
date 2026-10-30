@@ -84,7 +84,7 @@ def main():
 
 		
 
-	with open(plkFilePath, 'wb') as plk:	# db is just the Database / Pickle file shortened down. Opened in Write-Binary mode
+	with open(plkFilePath, 'wb') as plk:	# plk is just the Database / Pickle file shortened down. Opened in Write-Binary mode
 		while True:
 			while True:	# Just makes sure you input a string
 				sUniqueNameBL = input("Please enter a unique name (enter key to quit) >> ").lower().title()
