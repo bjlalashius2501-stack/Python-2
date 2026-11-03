@@ -3,5 +3,5 @@ Assignment List (In order of submission):
 
 > Inter-planetary Weights
 
-> Real Estate Analyzer using Files  [NEXT]
+> Real Estate Analyzer using Files
 
