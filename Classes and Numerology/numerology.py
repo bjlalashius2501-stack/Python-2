@@ -105,3 +105,13 @@ class Numerology:
 	def getPowerName(self) -> int: return self.__iPowerNameBL
 	def getSoul(self) -> int: return self.__iSoulBL
 
+
+
+	def __str__(self) -> str:
+		return f"Client Name: {self.getName()}\n" +\
+				f"Client DOB: {self.getBirthdate()}\n" +\
+				f"Client Life Path: {self.getLifePath()}\n" +\
+				f"Client Birthday: {self.getBirthDay()}\n" +\
+				f"Client Attitude: {self.getAttitude()}\n" +\
+				f"Client Personality: {self.getPersonality()}\n" +\
+				f"Client Power Name: {self.getPowerName()}"

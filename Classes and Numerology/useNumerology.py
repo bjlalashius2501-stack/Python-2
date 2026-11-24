@@ -83,14 +83,7 @@ def main():
 	clientNumerologyReportBL = Numerology(sNameBL, sDOBBL)
 
 	
-	print(f"Client Name: {clientNumerologyReportBL.getName()}")
-	print(f"Client DOB: {clientNumerologyReportBL.getBirthdate()}")
-	print(f"Client Life Path: {clientNumerologyReportBL.getLifePath()}")
-	print(f"Client Birthday: {clientNumerologyReportBL.getBirthDay()}")
-	print(f"Client Attitude: {clientNumerologyReportBL.getAttitude()}")
-	print(f"Client Soul: {clientNumerologyReportBL.getSoul()}")
-	print(f"Client Personality: {clientNumerologyReportBL.getPersonality()}")
-	print(f"Client Power Name: {clientNumerologyReportBL.getPowerName()}")
+	print(f"===== CLIENT DATA =====\n{clientNumerologyReportBL}")
 
 	#!	THIS IS A TEST FUNCTION ONLY. IT'LL RUN ONLY IF
 	#!	THE BOOLEAN IS SET TO TRUE
