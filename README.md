@@ -5,3 +5,5 @@ Assignment List (In order of submission):
 
 > Real Estate Analyzer using Files
 
+> Classes & Numerology
+
